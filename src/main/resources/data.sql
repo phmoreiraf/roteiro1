@@ -4,7 +4,8 @@ CREATE TABLE task (
     description VARCHAR(250) NOT NULL,
     completed BOOLEAN
 );
-INSERT INTO task (description) VALUES
-    ('Primeira tarefa'),
-    ('Segunda tarefa'),
-    ('Terceira tarefa');
+INSERT INTO task (description, completed) VALUES
+    ('Primeira tarefa', false),
+    ('Segunda tarefa', false),
+    ('Terceira tarefa', false);
+

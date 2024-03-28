@@ -34,5 +34,4 @@ public class Task {
         return "Task [id=" + id + ", description=" + description + ", completed=" +
         completed + "]";
         }
-
 }
