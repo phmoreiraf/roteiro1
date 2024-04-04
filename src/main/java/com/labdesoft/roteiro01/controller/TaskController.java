@@ -57,7 +57,7 @@ public class TaskController {
     @Operation(summary = "Adiciona uma tarefa na lista")
     public ResponseEntity<Task> addTask(@RequestBody Task task) {
         try {
-            Task newTask = taskRepository.save(new Task(task.getDescription())); 
+            Task newTask = taskRepository.save(new Task(task.getId(), task.getDescription(), task.getCompleted())); 
                                                                             
             return new ResponseEntity<>(newTask, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -84,7 +84,6 @@ public class TaskController {
     @Operation(summary = "Deleta uma tarefa pelo ID")
     public ResponseEntity<Void> deleteTask(@PathVariable("id") long id) {
         try {
-            // Verifica se a tarefa existe no banco de dados
             if (taskRepository.existsById(id)) {
                 taskRepository.deleteById(id);
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
