@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.hateoas.EntityModel;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.labdesoft.roteiro01.entity.Task;
 import com.labdesoft.roteiro01.repository.TaskRepository;
@@ -42,39 +45,48 @@ public class TaskController {
 
     @GetMapping("/task/{id}")
     @Operation(summary = "Busca uma tarefa pelo ID")
-    public ResponseEntity<Task> findTaskById(@PathVariable("id") long id) {
+    public ResponseEntity<EntityModel<Task>> findTaskById(@PathVariable("id") long id) {
         Optional<Task> taskData = taskRepository.findById(id);
 
         if (taskData.isPresent()) {
-            return new ResponseEntity<>(taskData.get(), HttpStatus.OK);
+            Task task = taskData.get();
+            EntityModel<Task> model = EntityModel.of(task,
+                    linkTo(methodOn(TaskController.class).findTaskById(id)).withSelfRel(),
+                    linkTo(methodOn(TaskController.class).updateTask(id, task)).withRel("update"),
+                    linkTo(methodOn(TaskController.class).deleteTask(id)).withRel("delete"));
+            return new ResponseEntity<>(model, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @SuppressWarnings("null")
     @PostMapping("/task")
     @Operation(summary = "Adiciona uma tarefa na lista")
-    public ResponseEntity<Task> addTask(@RequestBody Task task) {
+    public ResponseEntity<EntityModel<Task>> addTask(@RequestBody Task task) {
         try {
-            Task newTask = taskRepository.save(new Task(task.getId(), task.getDescription(), task.getCompleted())); 
-                                                                            
-            return new ResponseEntity<>(newTask, HttpStatus.CREATED);
+            Task newTask = taskRepository.save(task);
+            EntityModel<Task> model = EntityModel.of(newTask,
+                    linkTo(methodOn(TaskController.class).findTaskById(newTask.getId())).withSelfRel(),
+                    linkTo(methodOn(TaskController.class).updateTask(newTask.getId(), newTask)).withRel("update"),
+                    linkTo(methodOn(TaskController.class).deleteTask(newTask.getId())).withRel("delete"));
+            return new ResponseEntity<>(model, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/task/{id}")
     @Operation(summary = "Atualiza uma tarefa na lista pelo ID")
-    public ResponseEntity<Task> updateTask(@PathVariable("id") long id, @RequestBody Task task) {
+    public ResponseEntity<EntityModel<Task>> updateTask(@PathVariable("id") long id, @RequestBody Task task) {
         Optional<Task> taskData = taskRepository.findById(id);
 
         if (taskData.isPresent()) {
-            Task newTask = taskData.get();
-            newTask.setDescription(task.getDescription());
-            newTask.setCompleted(task.getCompleted());
-            return new ResponseEntity<>(taskRepository.save(newTask), HttpStatus.OK);
+            Task updatedTask = taskRepository.save(task);
+            EntityModel<Task> model = EntityModel.of(updatedTask,
+                    linkTo(methodOn(TaskController.class).findTaskById(id)).withSelfRel(),
+                    linkTo(methodOn(TaskController.class).updateTask(id, updatedTask)).withRel("update"),
+                    linkTo(methodOn(TaskController.class).deleteTask(id)).withRel("delete"));
+            return new ResponseEntity<>(model, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
