@@ -1,13 +1,13 @@
-// package com.labdesoft.roteiro01;
+package com.labdesoft.roteiro01;
 
-// import org.junit.jupiter.api.Test;
-// import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-// @SpringBootTest
-// class Roteiro01ApplicationTests {
+@SpringBootTest
+class Roteiro01ApplicationTests {
 
-// 	@Test
-// 	void contextLoads() {
-// 	}
+	@Test
+	void contextLoads() {
+	}
 
-// }
+}
