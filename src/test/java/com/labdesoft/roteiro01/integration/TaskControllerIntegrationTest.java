@@ -19,7 +19,7 @@ public class TaskControllerIntegrationTest {
 
     @BeforeEach
     public void setup() {
-        RestAssured.baseURI = "https://roteiro1.onrender.com/";
+        RestAssured.baseURI = "https://roteiro1.onrender.com";
         RestAssured.port = 443; 
     }
 
