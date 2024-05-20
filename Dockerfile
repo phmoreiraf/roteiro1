@@ -6,7 +6,6 @@ COPY . .
 
 RUN apt-get install maven -y
 RUN mvn clean 
-RUN mvn package
 RUN mvn install
 
 FROM openjdk:21-jdk-slim
