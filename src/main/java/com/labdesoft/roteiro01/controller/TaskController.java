@@ -27,7 +27,13 @@ import java.util.Optional;
 @RestController
 public class TaskController {
     @Autowired
-    TaskRepository taskRepository;
+    
+    private final TaskRepository taskRepository;
+
+    // Construtor que aceita um parâmetro do tipo TaskRepository
+    public TaskController(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     @SuppressWarnings("null")
     @GetMapping("/task")
