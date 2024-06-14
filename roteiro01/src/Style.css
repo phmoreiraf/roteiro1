@@ -1,135 +1,112 @@
-/* Reset básico */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
   font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
+  background-color: #f8f8f8;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  padding: 20px; /* Adiciona um padding ao redor da página */
+  margin: 0;
 }
 
-/* Wrapper principal */
 .TodoWrapper {
   display: flex;
-  justify-content: space-between;
-  padding: 20px;
-  width: 80%;
-  max-width: 1200px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 1800px;
+  height: 70vh;
+  overflow: hidden;
 }
 
-.TodoWrapper h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  flex-basis: 100%;
-}
-
-/* Seção de tarefas */
 .TodoSection {
   flex: 1;
   padding: 20px;
-  background-color: white;
-  border-radius: 8px;
-  margin-right: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
 }
 
 .TodoSection h2 {
-  margin-bottom: 10px;
-  font-size: 1.2em;
-  border-bottom: 1px solid #000;
+  border-bottom: 2px solid black;
+  padding-bottom: 5px;
 }
 
-/* Lista de tarefas */
-.Todo {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.TodoForm {
+  background-color: #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  flex: 1;
+}
+
+.TodoForm label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.TodoForm input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.TodoForm input[type="radio"] {
+  margin-right: 5px;
+}
+
+.priority label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.todo-btn {
+  background-color: black;
+  color: white;
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.add-task-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.Todo {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .Todo p {
   margin: 0;
 }
 
-.Todo.completed p {
-  text-decoration: line-through;
-  color: gray;
-}
-
-.Todo .delete-btn {
-  cursor: pointer;
-}
-
-/* Formulário */
-.TodoForm {
-  flex: 2; /* Faz o card da direita maior */
-  padding: 20px;
-  background-color: #d3d3d3;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.TodoForm input[type="text"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-.TodoForm button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background-color: #000;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* Detalhes da tarefa */
-.TaskDetails {
+.Todo .task-details {
   display: flex;
   flex-direction: column;
 }
 
-.TaskDetails label {
-  margin-bottom: 5px;
-}
-
-.TaskDetails input[type="radio"] {
-  margin-right: 10px;
-}
-
-.TaskDetails .priority {
-  margin-top: 10px;
-}
-
-/* Botão adicionar */
-.add-task-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  background-color: #000;
-  color: white;
-  border-radius: 50%;
-  font-size: 1.5em;
+.delete-btn {
   cursor: pointer;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: grey;
 }

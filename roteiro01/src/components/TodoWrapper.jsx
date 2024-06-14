@@ -9,7 +9,22 @@ export const TodoWrapper = () => {
   ]);
 
   const addTodo = (todo) => {
-    setTodos([...todos, { id: uuidv4(), description: todo, completed: false }]);
+    setTodos([
+      ...todos,
+      { id: uuidv4(), ...todo }
+    ]);
+  };
+
+  const completeTodo = (id) => {
+    setTodos(
+      todos.map(todo =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
+  };
+
+  const deleteTodo = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
   };
 
   return (
@@ -17,11 +32,11 @@ export const TodoWrapper = () => {
       <div className="TodoSection">
         <h2>Tarefas a fazer:</h2>
         {todos.filter(todo => !todo.completed).map((item) => (
-          <TodoList key={item.id} task={item} />
+          <TodoList key={item.id} task={item} completeTodo={completeTodo} deleteTodo={deleteTodo} />
         ))}
         <h2>Tarefas concluídas:</h2>
         {todos.filter(todo => todo.completed).map((item) => (
-          <TodoList key={item.id} task={item} />
+          <TodoList key={item.id} task={item} completeTodo={completeTodo} deleteTodo={deleteTodo} />
         ))}
       </div>
       <TodoForm addTodo={addTodo} />
