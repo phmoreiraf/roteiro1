@@ -1,0 +1,167 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.TodoWrapper {
+  display: flex;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 1000px; /* Largura absoluta de 1200 pixels */
+  height: 80vh; /* Altura de 80% da altura da viewport */
+  overflow: hidden;
+  position: relative;
+}
+
+
+.TodoSection {
+  flex: 2;
+  margin: 20px;
+  margin-right: 10px; /* Espaço de 10px entre os cards */
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.TodoSection h2 {
+  border-bottom: 2px solid black;
+  padding-bottom: 5px;
+}
+
+.todoTask{
+  margin-top: 0;
+}
+
+.completedTask{
+  margin-top: 30px;
+}
+
+.TodoFormWrapper {
+  flex: 1;
+  margin: 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.TodoForm label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.TodoForm input[type="text"] {
+  width: calc(100% - 16px);
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.TodoForm input[type="radio"] {
+  margin-right: 5px;
+}
+
+.TodoForm input[type="radio"]:not(:first-child) {
+  margin-left: 20px;
+}
+
+.taskName {
+  font-weight: bold;
+}
+
+.priority label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.todo-btn {
+  background-color: black;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.Todo {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Todo p {
+  margin: 0;
+}
+
+.Todo .task-details {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.delete-btn {
+  cursor: pointer;
+  color: red;
+  margin-left: 10px;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: grey;
+}
+
+.TodoForm .TaskDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.TodoForm .TaskDetails > div {
+  margin-bottom: 10px;
+}
+
+.TodoForm .TaskDetails input[type="text"]:disabled {
+  background-color: #e0e0e0;
+}
+
+.Todo input[type="checkbox"] {
+  display: none;
+}
+
+.Todo .custom-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid black;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.Todo .custom-checkbox.checked {
+  background-color: #fff;
+}
+
+.Todo input[type="checkbox"]:checked + .custom-checkbox::after {
+  content: '✔';
+  width: 12px;
+  height: 20px;
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
