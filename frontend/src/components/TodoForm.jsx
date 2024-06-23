@@ -14,9 +14,9 @@ export const TodoForm = ({ addTodo }) => {
       const newTodo = {
         description: value,
         completed: false,
-        date: type === "Data" ? date : null,
-        deadline: type === "Prazo" ? deadline : null,
-        priority: priority,
+        date: type === "Data" ? formatDate(date) : null,
+        deadline: type === "Prazo" ? `${deadline} dias` : null,
+        priority: capitalizeFirstLetter(priority),
       };
       // Adicionar tarefa
       addTodo(newTodo);
@@ -27,6 +27,18 @@ export const TodoForm = ({ addTodo }) => {
       setPriority("Baixa");
       setType("Livre");
     }
+  };
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const day = d.getDate().toString().padStart(2, "0");
+    const month = (d.getMonth() + 1).toString().padStart(2, "0");
+    const year = d.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   };
 
   return (
@@ -54,8 +66,7 @@ export const TodoForm = ({ addTodo }) => {
             Data
           </label>
           <input
-            type="text"
-            placeholder="DD/MM/AAAA"
+            type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
             disabled={type !== "Data"}
@@ -73,12 +84,13 @@ export const TodoForm = ({ addTodo }) => {
             Prazo
           </label>
           <input
-            type="text"
-            placeholder="XX dias"
+            type="number"
+            placeholder="XX"
             value={deadline}
             onChange={(e) => setDeadline(e.target.value)}
             disabled={type !== "Prazo"}
-          />
+          />{" "}
+          dias
         </div>
         <div>
           <label>

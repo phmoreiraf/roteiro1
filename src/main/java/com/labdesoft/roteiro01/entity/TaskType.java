@@ -1,4 +1,4 @@
-package com.labdesoft.roteiro01.enums;
+package com.labdesoft.roteiro01.entity;
 
 public enum TaskType {
     DATA,

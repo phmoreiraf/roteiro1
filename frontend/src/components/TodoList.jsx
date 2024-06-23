@@ -18,8 +18,8 @@ export const TodoList = ({ task, completeTodo, deleteTodo }) => {
       ></div>
       <div className="task-details">
         <p className="taskName">{task.description}</p>
-        {task.date && <p>Data de Término: {task.date}</p>}
-        {task.deadline && <p>Prazo: {task.deadline} dias</p>}
+        {task.type === "DATA" && <p>Data de Término: {task.finalDate}</p>}
+        {task.type === "PRAZO" && <p>Prazo: {task.finalDate}</p>}
         <p>Prioridade: {task.priority}</p>
       </div>
       <span className="delete-btn" onClick={() => deleteTodo(task.id)}>🗑️</span>
