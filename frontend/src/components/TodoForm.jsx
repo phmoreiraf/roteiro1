@@ -4,41 +4,35 @@ export const TodoForm = ({ addTodo }) => {
   const [value, setValue] = useState("");
   const [date, setDate] = useState("");
   const [deadline, setDeadline] = useState("");
-  const [priority, setPriority] = useState("Baixa");
-  const [type, setType] = useState("Livre");
+  const [priority, setPriority] = useState("BAIXA");
+  const [type, setType] = useState("LIVRE");
+
+  const calculateFinalDate = (days) => {
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + parseInt(days, 10));
+    return currentDate.toISOString().split('T')[0]; // Retorna no formato YYYY-MM-DD
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (value) {
-      // Construir novo objeto de tarefa
+      const finalDate = type === "DATA" ? date : type === "PRAZO" ? calculateFinalDate(deadline) : null;
+
       const newTodo = {
         description: value,
-        completed: false,
-        date: type === "Data" ? formatDate(date) : null,
-        deadline: type === "Prazo" ? `${deadline} dias` : null,
-        priority: capitalizeFirstLetter(priority),
+        type: type.toUpperCase(),
+        priority: priority.toUpperCase(),
+        finalDate: finalDate,
+        completed: false
       };
-      // Adicionar tarefa
+
       addTodo(newTodo);
-      // Limpar formulário após envio
       setValue("");
       setDate("");
       setDeadline("");
-      setPriority("Baixa");
-      setType("Livre");
+      setPriority("BAIXA");
+      setType("LIVRE");
     }
-  };
-
-  const formatDate = (date) => {
-    const d = new Date(date);
-    const day = d.getDate().toString().padStart(2, "0");
-    const month = (d.getMonth() + 1).toString().padStart(2, "0");
-    const year = d.getFullYear();
-    return `${day}-${month}-${year}`;
-  };
-
-  const capitalizeFirstLetter = (str) => {
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   };
 
   return (
@@ -59,8 +53,8 @@ export const TodoForm = ({ addTodo }) => {
             <input
               type="radio"
               name="type"
-              value="Data"
-              checked={type === "Data"}
+              value="DATA"
+              checked={type === "DATA"}
               onChange={(e) => setType(e.target.value)}
             />
             Data
@@ -69,7 +63,7 @@ export const TodoForm = ({ addTodo }) => {
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            disabled={type !== "Data"}
+            disabled={type !== "DATA"}
           />
         </div>
         <div>
@@ -77,28 +71,27 @@ export const TodoForm = ({ addTodo }) => {
             <input
               type="radio"
               name="type"
-              value="Prazo"
-              checked={type === "Prazo"}
+              value="PRAZO"
+              checked={type === "PRAZO"}
               onChange={(e) => setType(e.target.value)}
             />
             Prazo
           </label>
           <input
             type="number"
-            placeholder="XX"
+            placeholder="XX dias"
             value={deadline}
             onChange={(e) => setDeadline(e.target.value)}
-            disabled={type !== "Prazo"}
-          />{" "}
-          dias
+            disabled={type !== "PRAZO"}
+          />
         </div>
         <div>
           <label>
             <input
               type="radio"
               name="type"
-              value="Livre"
-              checked={type === "Livre"}
+              value="LIVRE"
+              checked={type === "LIVRE"}
               onChange={(e) => setType(e.target.value)}
             />
             Livre
@@ -109,8 +102,8 @@ export const TodoForm = ({ addTodo }) => {
             <input
               type="radio"
               name="priority"
-              value="Alta"
-              checked={priority === "Alta"}
+              value="ALTA"
+              checked={priority === "ALTA"}
               onChange={(e) => setPriority(e.target.value)}
             />
             Alta
@@ -119,8 +112,8 @@ export const TodoForm = ({ addTodo }) => {
             <input
               type="radio"
               name="priority"
-              value="Media"
-              checked={priority === "Media"}
+              value="MEDIA"
+              checked={priority === "MEDIA"}
               onChange={(e) => setPriority(e.target.value)}
             />
             Média
@@ -129,8 +122,8 @@ export const TodoForm = ({ addTodo }) => {
             <input
               type="radio"
               name="priority"
-              value="Baixa"
-              checked={priority === "Baixa"}
+              value="BAIXA"
+              checked={priority === "BAIXA"}
               onChange={(e) => setPriority(e.target.value)}
             />
             Baixa
