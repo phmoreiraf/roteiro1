@@ -13,33 +13,38 @@ body {
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 1000px; /* Largura absoluta de 1200 pixels */
-  height: 80vh; /* Altura de 80% da altura da viewport */
+  width: 1000px;
+  height: 80vh;
   overflow: hidden;
   position: relative;
+  margin-top: 20px;
 }
-
 
 .TodoSection {
   flex: 2;
   margin: 20px;
-  margin-right: 10px; /* Espaço de 10px entre os cards */
+  margin-right: 10px;
   background-color: #f0f0f0;
   border-radius: 10px;
   padding: 20px;
   overflow-y: auto;
 }
 
+.completedSection{
+  margin-top: 30px;
+}
+
 .TodoSection h2 {
   border-bottom: 2px solid black;
   padding-bottom: 5px;
-}
-
-.todoTask{
   margin-top: 0;
 }
 
-.completedTask{
+.todoTask {
+  margin-top: 0;
+}
+
+.completedTask {
   margin-top: 30px;
 }
 
@@ -51,6 +56,7 @@ body {
   padding: 20px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .TodoForm label {
@@ -58,7 +64,9 @@ body {
   margin-bottom: 10px;
 }
 
-.TodoForm input[type="text"] {
+.TodoForm input[type="text"],
+.TodoForm input[type="number"],
+.TodoForm input[type="date"] {
   width: calc(100% - 16px);
   padding: 8px;
   margin-bottom: 10px;
@@ -74,8 +82,14 @@ body {
   margin-left: 20px;
 }
 
-.taskName {
-  font-weight: bold;
+.TodoForm .TaskDetails {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.TodoForm .TaskDetails > div {
+  margin-bottom: 10px;
 }
 
 .priority label {
@@ -91,6 +105,7 @@ body {
   cursor: pointer;
   width: 100%;
   border-radius: 5px;
+  font-size: 16px;
 }
 
 .Todo {
@@ -120,19 +135,6 @@ body {
 .completed {
   text-decoration: line-through;
   color: grey;
-}
-
-.TodoForm .TaskDetails {
-  display: flex;
-  flex-direction: column;
-}
-
-.TodoForm .TaskDetails > div {
-  margin-bottom: 10px;
-}
-
-.TodoForm .TaskDetails input[type="text"]:disabled {
-  background-color: #e0e0e0;
 }
 
 .Todo input[type="checkbox"] {

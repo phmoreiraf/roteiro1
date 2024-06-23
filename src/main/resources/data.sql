@@ -3,15 +3,16 @@ DROP TABLE IF EXISTS task;
 CREATE TABLE task (
     id INT AUTO_INCREMENT PRIMARY KEY,
     description VARCHAR(250) NOT NULL,
-    type VARCHAR(50) NOT NULL,
-    priority VARCHAR(50) NOT NULL,
-    dueDate DATE,
-    dueDays INT,
-    completed BOOLEAN,
-    status VARCHAR(100)
+    type ENUM('DATA', 'PRAZO', 'LIVRE') NOT NULL,
+    priority ENUM('ALTA', 'MEDIA', 'BAIXA') NOT NULL,
+    finalDate DATE,
+    completed BOOLEAN DEFAULT 0
 );
 
-INSERT INTO task (id, description, type, priority, dueDate, dueDays, completed, status) VALUES
-    (1, 'Primeira tarefa', 'DATA', 'ALTA', '2024-04-20', NULL, false, '30 dias de atraso'),
-    (2, 'Segunda tarefa', 'PRAZO', 'ALTA', NULL, 5, false, 'Prevista'),
-    (3, 'Terceira tarefa', 'DATA', 'ALTA', '2024-04-20', NULL, false, '30 dias de atraso');
+INSERT INTO task (description, type, priority, finalDate, completed) VALUES
+('Primeira tarefa', 'DATA', 'ALTA', '2024-12-31', false),
+('Segunda tarefa', 'PRAZO', 'MEDIA', '2024-11-30', false),
+('Terceira tarefa', 'LIVRE', 'BAIXA', NULL, false),
+('Quarta tarefa', 'DATA', 'BAIXA', '2024-10-15', true),
+('Quinta tarefa', 'PRAZO', 'ALTA', '2024-08-25', true),
+('Sexta tarefa', 'LIVRE', 'MEDIA', NULL, false);

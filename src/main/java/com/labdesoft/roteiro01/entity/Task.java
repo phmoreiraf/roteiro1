@@ -3,8 +3,7 @@ package com.labdesoft.roteiro01.entity;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-import com.labdesoft.roteiro01.enums.Priority;
-import com.labdesoft.roteiro01.enums.TaskType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
@@ -13,7 +12,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,61 +25,62 @@ import lombok.Setter;
 @NoArgsConstructor
 @Schema(description = "Todos os detalhes sobre uma tarefa. ")
 public class Task {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Schema(name = "Descrição da tarefa deve possuir pelo menos 10 caracteres")
+
+    @Schema(name = "Descrição da tarefa")
     @Size(min = 10, message = "Descrição da tarefa deve possuir pelo menos 10 caracteres")
     private String description;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private TaskType type;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
-    private Priority priority;
+    private TaskPriority priority;
 
-    private LocalDate dueDate;
-
-    private Integer dueDays;
+    @JsonFormat(pattern = "yyyy-MM-dd") // Formato da data para JSON
+    private LocalDate finalDate;
 
     private Boolean completed;
 
-    public Task(String description) {
+    public Task(String description, TaskType type, TaskPriority priority) {
         this.description = description;
+        this.type = type;
+        this.priority = priority;
+        this.finalDate = finalDate;
+        this.completed = false;
     }
 
     public String getStatus() {
         if (type == TaskType.DATA) {
             if (completed) {
                 return "Concluída";
-            } else if (dueDate == null) {
-                return "Prevista";
-            } else if (dueDate.isAfter(LocalDate.now())) {
-                // long daysRemaining = ChronoUnit.DAYS.between(LocalDate.now(), dueDate);
-                return "Prevista";
-            } else if (dueDate.isEqual(LocalDate.now())) {
-                return "Prevista";
+            } else if (finalDate == null) {
+                return "Prevista, data prevista: Não especificada";
+            } else if (finalDate.isAfter(LocalDate.now())) {
+                return "Prevista, data prevista: " + finalDate;
             } else {
-                long daysLate = ChronoUnit.DAYS.between(dueDate, LocalDate.now());
-                return daysLate + " dia" + (daysLate != 1 ? "s" : "") + " de atraso";
+                long daysLate = ChronoUnit.DAYS.between(finalDate, LocalDate.now());
+                return "Atrasada por " + daysLate + " dia" + (daysLate != 1 ? "s" : "");
             }
         } else if (type == TaskType.PRAZO) {
             if (completed) {
                 return "Concluída";
-            } else if (dueDays == null) {
-                return "Prevista";
+            } else if (finalDate == null) {
+                return "Prevista, previsão: Não especificada";
             } else {
-                LocalDate deadline = LocalDate.now().plusDays(dueDays);
-                if (deadline.isEqual(LocalDate.now())) {
-                    return "Prevista";
-                } else if (deadline.isAfter(LocalDate.now())) {
-                    // long daysRemaining = ChronoUnit.DAYS.between(LocalDate.now(), deadline);
-                    return "Prevista";
+                LocalDate today = LocalDate.now();
+                LocalDate deadline = finalDate.plusDays(priority.ordinal() + 1);
+                if (deadline.isEqual(today)) {
+                    return "Prevista, previsão: 1 dia";
+                } else if (deadline.isAfter(today)) {
+                    long daysRemaining = ChronoUnit.DAYS.between(today, deadline);
+                    return "Prevista, previsão: " + daysRemaining + " dia" + (daysRemaining != 1 ? "s" : "") + " restante" + (daysRemaining != 1 ? "s" : "");
                 } else {
-                    long daysLate = ChronoUnit.DAYS.between(deadline, LocalDate.now());
-                    return daysLate + " dia" + (daysLate != 1 ? "s" : "") + " de atraso";
+                    long daysLate = ChronoUnit.DAYS.between(finalDate, LocalDate.now());
+                    return "Atrasada por " + daysLate + " dia" + (daysLate != 1 ? "s" : "");
                 }
             }
         } else { // Livre
@@ -91,6 +90,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task [id=" + id + ", description=" + description + ", status=" + getStatus() + "]";
+        return "Task [id=" + id + ", description=" + description + ", type=" + type + ", priority=" + priority + ", finalDate=" + finalDate + ", status=" + getStatus() + "]";
     }
 }
